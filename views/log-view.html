@@ -1,0 +1,21 @@
+<style>
+    .form-control{height: 40px}
+</style>
+
+<div class="row">
+    <form novalidate name="form">
+        <div class="col-md-2 col-md-offset-4">
+            <div class="logo-img" style="margin-left: -65px"></div>
+            <div class="input-group">
+                <span class="input-group-addon">账号：</span>
+                <input type="text" class="form-control" ng-model="username" placeholder="请输入账号">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon">密码：</span>
+                <input type="password" class="form-control" ng-model='password' placeholder="请输入密码" />
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" ng-click="login()" style="margin-top: 15px">登录</button>
+        </div>
+    </form>
+</div>

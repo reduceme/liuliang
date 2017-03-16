@@ -1,0 +1,58 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-10 col-md-offset-1 list">
+            <table class="table table-bordered">
+                <h3><strong>捆绑库</strong></h3>
+                <thead>
+                <tr>
+                    <td class="col-sm-1">序号</td>
+                    <td class="col-md-2">应用名</td>
+                    <td class="col-md-2">链接</td>
+                    <td class="col-md-3">package_name</td>
+                    <td class="col-md-2">时间</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in apkList">
+                    <td class="col-sm-1">{{$index + 1}}</td>
+                    <td class="col-md-2">{{item.name}}</td>
+                    <td class="col-md-2">{{item.url}}</td>
+                    <td class="col-md-3">{{item.package_name}}</td>
+                    <td class="col-md-2">{{item.create_at}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">应用名：</span>
+                    <input type="text" class="form-control" ng-model="newApk.name">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">链接：</span>
+                    <input type="text" class="form-control" ng-model="newApk.url">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">package_name：</span>
+                    <input type="text" class="form-control" ng-model="newApk.package_name">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" style="float: right;margin: 20px" ng-click="addApk()">确认添加</button>
+        </div>
+
+    </div>
+</div>

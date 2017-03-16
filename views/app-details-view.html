@@ -1,0 +1,326 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+
+    <div class="btn-group" style="margin-left: 10px">
+    </div>
+    <div class="row">
+        <div class="col-md-12 list">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">类型选择：</span>
+                    <select class="form-control" ng-options="item.id as item.name for item in categoryList" ng-model="selectedCategory">
+                        <option value="">-----请选择-----</option>
+                    </select>
+                </div>
+            </div>
+
+            <!--<div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">性别选择：</span>
+                    <select class="form-control" ng-change="change(selectedType)" ng-model="selectedType" ng-options="item.id as item.name for item in sexList">
+                        <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                    </select>
+                </div>
+            </div>-->
+
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">排序方式：</span>
+                    <select class="form-control" ng-model="item1.id" ng-change="orderChange(item1.id)" ng-options="item1.id as item1.name for item1 in orderList">
+                        <option value="">-----请选择-----</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group col-md-3" style="margin-left: 10px">
+                <button type="button" class="btn btn-primary" ng-click="search()">查询</button>
+                <button type="button" class="btn btn-primary" ng-click="showAd()" data-toggle="modal" data-target="#showAdModal">广告开关</button>
+                <button type="button" class="btn btn-primary" ng-click="bindButton()" data-toggle="modal" data-target="#showApkModal">捆绑库开关</button>
+            </div>
+
+
+
+            <div style="clear: both"></div>
+
+            <div class="col-md-3 secondRow" style="margin-bottom: 15px">
+                <div class="input-group">
+                    <span class="input-group-addon">开始时间：</span>
+                    <input type="date" class="form-control" ng-model="startTime">
+                </div>
+            </div>
+
+            <div class="col-md-3 secondRow" style="margin-bottom: 15px">
+                <div class="input-group">
+                    <span class="input-group-addon">结束时间：</span>
+                    <input type="date" class="form-control" ng-model="endTime">
+                </div>
+            </div>
+
+            <div class="col-md-3 secondRow" style="margin-bottom: 15px">
+                <div class="input-group">
+                    <span class="input-group-addon">搜索条件：</span>
+                    <input type="text" class="form-control" ng-model="searchInput">
+                </div>
+            </div>
+
+            <div class="col-md-2 secondRow" style="margin-bottom: 15px">
+                <h4 class="modal-title" id="adsModalLabel">
+                    当前选中广告：<span style="color: blue" ng-repeat="item in selectedAdList"><strong>{{item.name}}，</strong></span>
+                </h4>
+                <h4 class="modal-title" id="apkModalLabel">
+                    当前捆绑库：<span style="color: blue" ng-repeat="item in selectedApkList">{{item.name}}，</span>
+                </h4>
+            </div>
+
+            <div style="margin-top: 15px">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>应用名</td>
+                            <td>类型</td>
+                            <td>性别偏好</td>
+                            <td>创建时间</td>
+                            <td>appid</td>
+                            <td>总下载量</td>
+                            <td>总打开次数</td>
+                            <td>广告展示数</td>
+                            <td>广告点击量</td>
+                            <td>点击率</td>
+                            <td>广告目标下载量</td>
+                            <td>捆绑包下载量</td>
+                            <td>当前广告</td>
+                            <td>当前捆绑包</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in channelList | orderBy : orderFunc() : true | filter : searchInput">
+                        <!--<tr ng-repeat="item in channelList ">-->
+                            <td data-toggle="modal" data-target="#myModal" style="color: #00b3ee" ng-click="showChannel(item.id, item.name);getAppInfo();CurrentAdInfo()">{{item.name}}</td>
+                            <td>{{}}</td>
+                            <td>{{}}</td>
+                            <td>{{item.create_at}}</td>
+                            <td>{{item.uuid}}</td>
+                            <td>{{item.install_count}}</td>
+                            <td>{{item.open_count + item.install_count}}</td>
+                            <td>{{item.ad_click_count}}</td>
+                            <td>{{item.apk_download}}</td>
+                            <td>{{item.apk_download}}</td>
+                            <td>{{item.apk_download}}</td>
+                            <td>{{item.apk_download}}</td>
+                            <td>{{item.apk_download}}</td>
+                            <td>{{item.apk_download}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 1000px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="ModalLabel">
+                    当前App名称：<span style="color: blue"><strong>{{currentApp.name}}</strong></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 list">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">类型选择：</span>
+                                <select class="form-control" ng-options="item.id as item.name for item in categoryList" ng-model="chooseCategory">
+                                    <option value="">-----请选择-----</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-bottom: 20px">
+                            <div class="input-group">
+                                <span class="input-group-addon">性别偏好：</span>
+                                <select class="form-control" ng-change="change(selectedType)" ng-model="updateApp.sex" ng-options="item.id as item.name for item in sexList">
+                                    <option value="">-----请选择-----</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="clear:both;"></div>
+
+                        <table class="table table-bordered col-md-4" style="margin-top: 20px">
+                            <tr>
+                                <td style="width: 100px;text-align: left">应用名</td>
+                                <td style="width: 400px">
+                                    <input type="text" class="form-control" ng-model="currentAppInfo.name">
+                                </td>
+                                <td style="text-align: left">appID：{{currentAppInfo.uuid}}</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100px;text-align: left">启动页</td>
+                                <td style="width: 400px">
+                                    <input id="launchUpload" type="file" name="uploadfile"></td>
+                                <td style="text-align: left">{{currentAppInfo.splash_img}}
+                                    <button type="button btn-primary btn-lg" class="btn btn-default" style="float: right" ng-disabled="true">查看原图</button>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <button type="button" class="btn btn-primary" style="float: right;margin-right: 10px;margin-bottom: 20px" ng-click="update()">提交更改</button>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td style="width: 50px">渠道名</td>
+                                    <td style="width: 50px">下载量</td>
+                                    <td style="width: 50px">打开次数</td>
+                                    <td style="width: 75px">广告点击次数</td>
+                                    <td style="width: 75px">捆绑下载次数</td>
+                                    <td style="width: 150px">当前广告</td>
+                                    <td style="width: 150px">当前捆绑包</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(index, item) in channelListInner">
+                                    <td style="width: 50px">{{item.name}}</td>
+                                    <td style="width: 50px">{{item.install_count}}</td>
+                                    <td style="width: 50px">{{item.open_count + item.install_count}}</td>
+                                    <td style="width: 75px">{{item.ad_click_count}}</td>
+                                    <td style="width: 75px">{{item.apk_download}}</td>
+
+                                    <td style="width: 150px">
+                                        <select class="form-control" ng-change="changeAd(index)" selected="{{item.auto_download?1:2}}" ng-model="selectedAd" ng-options="opt.id as opt.name for opt in addApk">
+                                            <option value="{{opt.value}}"></option>
+                                        </select>
+                                    </td>
+
+                                    <td style="width: 150px">
+                                        <select class="form-control" ng-change="changeApk(index)" selected="{{item.auto_download?1:2}}" ng-model="selectedApk" ng-options="opt.id as opt.name for opt in addApk">
+                                             <option value="{{opt.value}}"></option>
+                                         </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>合计</strong></td>
+                                    <td>{{installInnerSum}}</td>
+                                    <td>{{openInstallInnerSum}}</td>
+                                    <td>{{adClickInnerSum}}</td>
+                                    <td>{{apkDownloadInnerSum}}</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="openCurrentApk();openCurrentAd()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--广告库-->
+<div class="modal fade" id="showAdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">广告库</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>应用名</td>
+                        <td>链接</td>
+                        <td>图片</td>
+                        <td>选择</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in adList">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.url}}</td>
+                        <td>{{item.img}}</td>
+                        <td><input type="checkbox" ng-model='item.isSelected' ng-change="getAdChangeale()"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="getSelectedAdList()" data-dismiss="modal">确认</button>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="closeAllAd()">全部取消</button>
+                <button type="button" class="btn btn-primary" ng-click="openAllAd()">全部打开</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--捆绑库-->
+<div class="modal fade" id="showApkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 1200px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加捆绑应用</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>应用名</td>
+                            <td>链接</td>
+                            <td>package_name</td>
+                            <td>选择</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in apkList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.url}}</td>
+                            <td>{{item.package_name}}</td>
+                            <td><input type="checkbox" ng-model='item.isSelected' ng-change="getChangeale()"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="openAllApk()">全部打开</button>
+                <button type="button" class="btn btn-primary" ng-click="closeAllApk()">全部取消</button>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="getSelectedApkList()" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

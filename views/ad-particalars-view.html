@@ -1,0 +1,75 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-12 list">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">开始时间：</span>
+                    <input type="date" class="form-control" ng-model="startTime">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">结束时间：</span>
+                    <input type="date" class="form-control" ng-model="endTime">
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-left: 15px">
+                <button type="button" class="btn btn-default" ng-click="">查询</button>
+                <button type="button" class="btn btn-default" ng-click="getToday()">当日</button>
+                <button type="button" class="btn btn-default" ng-click="getWeek()">7日</button>
+                <button type="button" class="btn btn-default" ng-click="getThirtieth()">30日</button>
+                <button type="button" class="btn btn-default" ng-click="getCurrentMonthFirst()">当月</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>广告名</td>
+                        <td>链接</td>
+                        <td>广告目的</td>
+                        <td>广告类型</td>
+                        <td>展示数</td>
+                        <td>点击次数</td>
+                        <td>点击率</td>
+                        <td>广告目标下载量</td>
+                        <td>当前状态</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(index, obj) in adParticalarsList">
+                        <td>{{$index + 1}}</td>
+                        <td>{{obj.ad_name}}</td>
+                        <td>{{obj.url}}</td>
+                        <td>{{obj.goal}}</td>
+                        <td>{{obj.style}}</td>
+                        <td>{{obj.show_count}}</td>
+                        <td>{{obj.click_count}}</td>
+                        <td>{{obj.click_rate}}</td>
+                        <td>{{obj.target}}</td>
+                        <td>{{obj.status}}</td>
+                        <td>
+                            <select class="form-control" ng-options="item.id as item.name for item in drowDown" selected="{{item.selected?1:2}}" ng-model="item.id" ng-change="changeDrowDowm(index, item.id)">
+                                <option value="">请选择</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

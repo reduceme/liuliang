@@ -1,0 +1,114 @@
+<style>
+    /*.list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}*/
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+    .flout-div{display: block;float: left;border: solid 1px #DDDDDD;width: 10%;height: 120px;margin: 10px;border-radius: 8px}
+    .showCountSpan{display: block;font-size: 40px;text-align: center}
+    .span-footer{font-size: 20px;display: block;text-align: center}
+    /*.table_width{width: 80px}*/
+    .btn-show{margin-left: 100px;margin-bottom: 20px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="row">
+        <div class="col-md-12" style="margin: 20px">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">类型选择：</span>
+                    <select class="form-control" ng-options="item.id as item.name for item in categoryType" ng-model="item.category.id" ng-change="getId(item.category.id)">
+                        <option value="">-----请选择-----</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">性别选择：</span>
+                    <select class="form-control" ng-change="change(item.id)" ng-model="item.id" ng-options="item.id as item.name for item in channelList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="clear: both"></div>
+
+            <div class="col-md-4 secondRow" style="margin-bottom: 15px">
+                <div class="input-group">
+                    <span class="input-group-addon">开始时间：</span>
+                    <input type="date" class="form-control" ng-model="startTime">
+                </div>
+            </div>
+
+            <div class="col-md-4 secondRow" style="margin-bottom: 15px">
+                <div class="input-group">
+                    <span class="input-group-addon">结束时间：</span>
+                    <input type="date" class="form-control" ng-model="endTime">
+                </div>
+            </div>
+
+            <div class="btn-group secondRow" style="margin-left: 15px">
+                <button type="button" class="btn btn-primary" ng-click="searchCategory();fetchStatistics();">查询</button>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="div-group" ng-repeat="item in selectCategory">
+            <div class="flout-div" style="margin-left: 100px"><span class="showCountSpan">{{item.app_count}}</span><span class="span-footer">导流app数量</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.install_count}}</span><span class="span-footer">导流app下载量</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.open_count}}</span><span class="span-footer">导流app打开次数</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.ad_click_count}}</span><span class="span-footer">广告展示数</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.ad_click_count}}</span><span class="span-footer">广告点击数</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.ad_click_count}}</span><span class="span-footer">广告点击率</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.ad_click_count}}</span><span class="span-footer">广告目标下载</span></div>
+            <div class="flout-div"><span class="showCountSpan">{{item.apk_download}}</span><span class="span-footer">捆绑包下载量</span></div>
+        </div>
+
+        <hr>
+
+        <div class="btn-toolbar btn-show" role="toolbar" ng-if="showbtn">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="fnShowCharts()">曲线图</button>
+                <button type="button" class="btn btn-default" ng-click="fnShowTable()">列&nbsp;&nbsp;表</button>
+            </div>
+        </div>
+
+        <table class="table table-bordered" ng-if="showTable">
+            <tr>
+                <td class="col-md-1">时间</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.start}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">导流app下载量</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.install_count}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">导流app打开次数</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.open_count}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">广告展示数</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.ad_click_count}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">广告点击数</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.apk_download}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">广告点击率</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.apk_download}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">广告目标</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.apk_download}}</td>
+            </tr>
+            <tr>
+                <td class="col-md-1">捆绑包下载量</td>
+                <td class="table_width" ng-repeat="obj in selectSpecificInfo | orderBy : 'start' : false">{{obj.apk_download}}</td>
+            </tr>
+        </table>
+
+        <div id="main" style="width: 1300px;height:470px;margin-left: 100px" ng-show="showCharts"></div>
+    </div>
+</div>

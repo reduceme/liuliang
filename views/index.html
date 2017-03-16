@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>流量分发后台管理系统</title>
+	<script src="../public/lib/jquery/dist/jquery.min.js"></script>
+	<script src="../public/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="../public/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+	<script src="../public/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+	<script src="../public/lib/angular/angular.min.js"></script>
+	<script src="../public/lib/angular-route/angular-route.min.js"></script>
+	<script src="../public/lib/angular-animate/angular-animate.min.js"></script>
+	<script src="../public/lib/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
+	<script src="../public/lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+	<script src="../public/lib/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<!--配置文件-->
+	<script src="../app.js"></script>
+	<!--service文件-->
+	<script src="../services/mainServer.js"></script>
+	<!--echarts.js图标库-->
+	<script src="../public/lib/echarts.min.js"></script>
+	<!--mainController-->
+	<script src="../controllers/mainController.js"></script>
+	<!--文件上传-->
+	<script src="../services/uploadService.js"></script>
+	<!--登录-->
+	<script src="../controllers/logController.js"></script>
+    <!--类型添加-->
+    <script src="../controllers/addTypeController.js"></script>
+	<!--App添加-->
+	<script src="../controllers/addAppController.js"></script>
+	<!--渠道添加-->
+	<script src="../controllers/addChannelController.js"></script>
+	<!--广告库添加-->
+	<script src="../controllers/addAdController.js"></script>
+	<!--捆绑库添加-->
+	<script src="../controllers/addBindController.js"></script>
+	<!--类型数据-->
+	<script src="../controllers/dataTypeController.js"></script>
+	<!--app管理-->
+	<script src="../controllers/appDetailsController.js"></script>
+	<!--日报-->
+	<script src="../controllers/dailyController.js"></script>
+	<!--总览-->
+	<script src="../controllers/pandectController.js"></script>
+	<!--捆绑详情-->
+	<script src="../controllers/bindParticalarsController.js"></script>
+	<!--广告详情-->
+	<script src="../controllers/adParticalarsController.js"></script>
+	<!--广告管理-->
+	<script src="../controllers/adManageController.js"></script>
+</head>
+	<link rel="stylesheet" type="text/css" href="../public/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../public/lib/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../public/lib/bootstrap-fileinput/css/fileinput.min.css">
+	<link rel="stylesheet" type="text/css" href="../public/lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css">
+	<style type="text/css">
+		*{list-style-type: none;padding:0;margin: 0;}
+		.view-body{position: absolute;top:50px;width: 100%;bottom: 0;}
+		.sidebar{height: 100%;display: block;background-color: #293038;min-height: 900px;}
+		.sidebar.icon-flod{width: 50px;}
+		.sidebar.icon-unflod{width: 180px;}
+		.sidebar-flod{height: 30px;background: #394555;color:#aeb9c2;line-height: 30px;text-align: center;cursor: pointer;}
+		.sidebar-flod.icon-flod{width: 50px;}
+		.sidebar-flod.icon-unflod{width: 180px;}
+		.sidebar li{color: #fff;}
+		.nav-item li{display: list-item;}
+		.nav-item a{display: block;height: 40px;width: 100%;line-height: 40px;color: #fff;text-decoration: none;}
+		.sidebar-trans span.icon-flod{display: none;}
+		.sidebar-trans span.icon-unflod{display: block;}
+		.slide-title{padding-left: 10px;}
+		.side-item.on{background-color: #aeb9c2;}
+		.side-item.off{background-color: #293038;}
+		.inner-item.on{background-color: #fff;z-index: 999;}
+		.inner-item.off{background-color: #EAEDF1;}
+		.nav-icon{width: 50px;float: left;text-align: center;}
+		.view-content{position: absolute;left: 180px;width: 80%;top:0;right:0;bottom: 0;}
+		.view-content.icon-flod{left: 50px;width: 86%;}
+		.view-content.icon-unflod{left: 180px;width: 80%;}
+		.view-content-navbar{width: 180px;background-color: #EAEDF1;height: 100%;position: absolute;top:0;bottom: 0;float: left;min-height: 900px}
+		.nav-content-title{width: 180px;height: 50px;line-height: 50px;background: #D9DEE4;font-weight: bold;text-indent: 10px;}
+		.nav-content-list a{color:#333;text-decoration: none;}
+		.nav-content-list .nav-icon{width: 30px;height: 40px;float: left;text-align: center;}
+		.view-navbar-collapse{position: absolute;width: 15px;height: 50px;top:50%;cursor: pointer;}
+		.view-navbar-collapse span{line-height: 30px;}
+		.view-navbar-collapse.bar-show{left: 166px;transition: all 80ms linear;background-color:#D9DEE4;border-left: none;border-right: 15px solid #f7f7f7;border-bottom: 9px solid transparent;border-top: 9px solid transparent;background-color:#EAEDF1;}
+		.view-navbar-collapse.bar-hide{left: 0;transition: all 80ms linear;border-left: 15px solid #EAEDF1;border-right: none;border-bottom: 9px solid transparent;border-top: 9px solid transparent;}
+		.view-navbar-collapse.bar-hide span{line-height: 30px;margin-left:-15px;}
+		.view-content-body{position: absolute;width: 101%;}
+		.view-content-body.bar-show{left:180px;transition: all 80ms linear;width: 100%;}
+		.view-content-body.bar-hide{left:15px;transition: all 80ms linear;width: 112%;}
+		.top-slide-bar{position: absolute;top:0;right:10%;background: #EAEDF1;width: 80%;height: 80%;}
+		.top-slide-bar.ng-enter{transition: 0.3s linear all;transform: translate3d(0,-100%,0);}
+		.top-slide-bar.ng-enter.ng-enter-active{transform: translate3d(0,0,0);}
+		.top-slide-bar.ng-leave {transition:0.3s linear all;transform: translate3d(0,0px,0);}
+		.top-slide-bar.ng-leave.ng-leave-active {transform: translate3d(0,-100%,0);}
+		td{text-align: center}
+		.logo-img{background: url("../images/logo.png");background-size: 100%;width: 400px;height: 354px;margin: 0 auto;}
+	</style>
+
+<body ng-controller="mainController">
+	<div class="topbar" ng-if="isLogin">
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="" style="margin-left: 20px"><span class="fa fa-calendar"></span><strong>&nbsp;&nbsp;流量分发后台管理系统</strong></a>
+				</div>
+				<div class="collapse navbar-collapse" style="margin-left: 160px">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="">SNAKEPOP</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div class="view-body">
+		<div class="sidebar" ng-class="{'icon-unflod':!isSidebarFlod,'icon-flod':isSidebarFlod}" ng-if="isLogin">
+			<div class="sidebar-flod fa fa-bars" ng-click="toggleSidebarStatus()" ng-class="{'icon-unflod':!isSidebarFlod,'icon-flod':isSidebarFlod}"></div>
+			<ul class="sidebar-trans">
+				<li class="nav-item side-item" ng-repeat="item in sidebarList" ng-class="{'on':item.isSelected,'off':!item.isSelected}">
+					<a href="">
+						<div class="nav-icon">
+							<span class="{{item.icon}}"></span>
+						</div>
+						<span class="nav-title"  ng-class="{'icon-unflod':!isSidebarFlod,'icon-flod':isSidebarFlod}" ng-click="changeNavbar(item.id,item.name)">{{item.name}}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="view-content"  ng-class="{'icon-unflod':!isSidebarFlod,'icon-flod':isSidebarFlod}">
+			<div class="view-content-navbar" ng-if="!isNavbarShow">
+				<div class="nav-content-title">{{selectedNavtitle.name}}</div>
+				<div class="nav-content-list">
+					<ul class="nav-item-ul">
+						<li class="nav-item inner-item on" ng-class="{'on':item.isSelected,'off':!item.isSelected}" ng-repeat="item in selectedNavtitle.list" ng-click="changeView(selectedNavtitle.list,item.name)">
+							<a href="">
+								<span class="slide-title" >{{item.name}}</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="view-navbar-collapse" ng-click="collapseContentNavbar()" ng-class="{'bar-show':!isNavbarShow,'bar-hide':isNavbarShow}" ng-if="isLogin">
+				<span class="fa fa-arrows-h"></span>
+			</div>
+			<div class="view-content-body" ng-class="{'bar-show':!isNavbarShow,'bar-hide':isNavbarShow}">
+				<div ng-view></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "liuliang",
+  "authors": [
+    "dairui <dairui@1ktower.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "font-awsome#^4.6.3",
+    "angular-route": "^1.5.8",
+    "angular-animate": "^1.5.8",
+	"echarts": "^3.0"
+  }
+}

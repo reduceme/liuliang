@@ -1,0 +1,54 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="col-md-offset-1" style="margin-bottom: 20px">
+
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">开始时间：</span>
+                <input type="date" class="form-control" ng-model="startTime">
+            </div>
+        </div>
+
+        <div class="col-md-3" style="margin-left: 40px">
+            <div class="input-group">
+                <span class="input-group-addon">结束时间：</span>
+                <input type="date" class="form-control" ng-model="endTime">
+            </div>
+        </div>
+
+        <div class="btn-group" style="margin-left: 60px">
+            <button type="button" class="btn btn-default" ng-click="searchCategory($scope.startTime, $scope.endTime)">查询</button>
+            <button type="button" class="btn btn-default" ng-click="getToday()">当日</button>
+            <button type="button" class="btn btn-default" ng-click="getWeek()">7日</button>
+            <button type="button" class="btn btn-default" ng-click="getThirtieth()">30日</button>
+            <button type="button" class="btn btn-default" ng-click="getCurrentMonthFirst()">当月</button>
+        </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-1 list">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td class="col-md-1">序号</td>
+                    <td class="col-md-2">类型名</td>
+                    <td class="col-md-2">添加时间</td>
+                    <td class="col-md-3">数量</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(index, item) in categoryList">
+                    <td class="col-sm-1">{{$index + 1}}</td>
+                    <td class="col-md-2">{{item.category.name}}</td>
+                    <td class="col-md-2">{{item.category.create_at}}</td>
+                    <td class="col-md-2">{{item.app_count}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

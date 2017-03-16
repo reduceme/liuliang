@@ -1,0 +1,257 @@
+<style>
+    .imgView{display: block;float: left;margin: 10px; border: 1px solid #DDDDDD;border-radius: 5px;}
+    .addSelect{width: 65%;float: left;margin-left: 35px}
+    .imgSpan{z-index: 1;position: initial}
+    .showImg{z-index: 1000;position: static;overflow: hidden;border-radius: 5px}
+
+    a{text-decoration:none;}
+    a:hover{text-decoration:none;}
+    .btn_addPic{
+        display: block;
+        position: relative;
+        width: 140px;
+        height: 39px;
+        overflow: hidden;
+        border: 1px solid #EBEBEB;
+        background: none repeat scroll 0 0 #F3F3F3;
+        color: #999999;
+        cursor: pointer;
+        text-align: center;
+    }
+    .btn_addPic span{display: block;line-height: 39px;}
+    .btn_addPic em {
+        background:url(http://p7.qhimg.com/t014ce592c1a0b2d489.png) 0 0;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        overflow: hidden;
+        margin: 10px 0px 10px 0;
+        line-height: 20em;
+        vertical-align: middle;
+    }
+    .btn_addPic:hover em{background-position:-19px 0;}
+    .filePrew {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 140px;
+        height: 39px;
+        font-size: 100px;
+        opacity: 0;
+        filter:alpha(opacity=0);
+    }
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="row">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: left;margin-left: 50px">添加广告</button>
+    </div>
+    <hr>
+
+    <div style="margin-top: 15px">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>序号</td>
+                <td>广告名</td>
+                <td>链接</td>
+                <td>广告目的</td>
+                <td>图片</td>
+                <td>广告类型</td>
+                <td>package_name</td>
+                <td>创建时间</td>
+                <td>显示时常（S）</td>
+                <td>状态</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in channelList">
+                <td>{{$index + 1}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+                <td>{{}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 650px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    广告详情
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td><input type="text" class="form-control addSelect" ng-model="addID"></td>
+                        </tr>
+                        <tr>
+                            <td>广告目的</td>
+                            <td>
+                                <select class="form-control addSelect" ng-options="item.id as item.name for item in adPurposes" ng-model="item.id" ng-change="changePurposes(item.id)">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>广告名</td>
+                            <td><input type="text" class="form-control addSelect" ng-model="adName"></td>
+                        </tr>
+                        <tr>
+                            <td>链接</td>
+                            <td><input type="text" class="form-control addSelect" ng-model="adUrl"></td>
+                        </tr>
+                        <tr>
+                            <td>使用位置</td>
+                            <td>
+                                <select class="form-control addSelect" ng-options="location.id as location.name for location in useLocation" ng-model="location.id" ng-change="changeLocation(location.id)">
+                                </select>
+
+                                <div style="width: 140px;float: left;margin-left: 30px">
+                                    <div class="imgView" style="width: 140px;height: 200px;">
+                                        <span class="imgSpan">720*1280（100kb以内的JPG，PNG，gif播放时间小于5s)</span>
+                                        <img src="" class="showImg" id="largeImg" style="width: 140px;height: 200px;margin-top: -60px;">
+                                    </div>
+                                    <form style="display: block;float: left;margin-left: 10px">
+                                        <a class=btn_addPic href="javascript:void(0);">
+                                            <span>
+                                                <em>+</em>
+                                                添加图片
+                                            </span>
+                                            <input class="filePrew" multiple accept="image/jpg,image.png" type="file" ng-model="largeImgInput" onchange="angular.element(this).scope().selectImage(this, 'largeImg')"/>
+                                        </a>
+                                    </form>
+                                </div>
+
+
+                                <div style="width: 140px;float: left;margin-left: 15px">
+                                    <div class="imgView" style="width: 130px;height: 170px;">
+                                        <span class="imgSpan">640*960（100kb以内的JPG，PNG，gif播放时间小于5s)</span>
+                                        <img src="" class="showImg" id="mediumImg" style="width: 130px;height: 170px;margin-top: -60px;">
+                                    </div>
+
+                                    <form style="display: block;float: left;margin-left: 5px;margin-top: 30px">
+                                        <a class=btn_addPic href="javascript:void(0);">
+                                            <span>
+                                                <em>+</em>
+                                                添加图片
+                                            </span>
+                                            <input class="filePrew" multiple accept="image/jpg,image.png" type="file" ng-model="mediumImgInput" onchange="angular.element(this).scope().selectImage(this, 'mediumImg')"/>
+                                        </a>
+                                    </form>
+                                </div>
+
+                                <div style="width: 110px;float: left;margin-left: 5px">
+                                    <div class="imgView" style="width: 110px;height: 140px">
+                                        <span class="imgSpan">320*480（100kb以内的JPG，PNG，gif播放时间小于5s)</span>
+                                        <img src="" class="showImg" id="smallImg" style="width: 110px;height: 140px;margin-top: -80px;">
+                                    </div>
+
+                                    <form style="display: block;float: left;margin-left: 10px;margin-top: 60px">
+                                        <a class=btn_addPic href="javascript:void(0);">
+                                            <span>
+                                                <em>+</em>
+                                                添加图片
+                                            </span>
+                                            <input class="filePrew" multiple accept="image/jpg,image.png" type="file" ng-model="smallImgInput" onchange="angular.element(this).scope().selectImage(this, 'smallImg')"/>
+                                        </a>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>显示时常</td>
+                            <td><input type="text" class="form-control addSelect" ng-model="adShowTime"></td>
+                        </tr>
+                        <tr>
+                            <td>package_name</td>
+                            <td><input type="text" class="form-control addSelect" ng-model="adPackageName"></td>
+                        </tr>
+                        <tr>
+                            <td>状态</td>
+                            <td>
+                                <label class="checkbox-inline">
+                                    <input type="radio" name="optionsRadiosinline" id="optionsRadios3" value="option1" ng-model="open" ng-click="changeStatus(1)">&nbsp;&nbsp;启用
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  value="option2" ng-model="close" ng-click="changeStatus(2)">&nbsp;&nbsp;冻结
+                                </label>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--图片格式错误-->
+<div class="modal fade" id="confir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="confirLabel">
+                    错误提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                图片格式错误！
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--图片大小提示-->
+<div class="modal fade" id="showImgSize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="showImgSizeLabel">
+                    错误提示
+                </h4>
+            </div>
+            <div class="modal-body">
+                图片大小不正确！
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

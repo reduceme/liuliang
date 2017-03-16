@@ -1,0 +1,119 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-12 list">
+            <!--<div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">类型选择：</span>
+                    <select class="form-control" ng-options="item.id as item.name for item in categoryType" ng-model="selectedCategory">
+                        <option value="">-&#45;&#45;&#45;&#45;请选择-&#45;&#45;&#45;&#45;</option>
+                    </select>
+                </div>
+            </div>-->
+
+            <!--<div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">性别选择：</span>
+                    <select class="form-control" ng-change="change(selectedType)" ng-model="selectedType" ng-options="item.id as item.name for item in sexList">
+                        <option value="">&#45;&#45;请选择&#45;&#45;</option>
+                    </select>
+                </div>
+            </div>-->
+
+            <!--<div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">应用名筛选：</span>
+                    <input type="text" class="form-control">
+                </div>
+            </div>-->
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">开始时间：</span>
+                    <input type="date" class="form-control" ng-model="startTime">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">结束时间：</span>
+                    <input type="date" class="form-control" ng-model="endTime">
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-left: 10px">
+                <button type="button" class="btn btn-default" ng-click="searchCategory(startTime, endTime)">查询</button>
+                <button type="button" class="btn btn-default" ng-click="getToday()">当日</button>
+                <button type="button" class="btn btn-default" ng-click="getWeek()">7日</button>
+                <button type="button" class="btn btn-default" ng-click="getThirtieth()">30日</button>
+                <button type="button" class="btn btn-default" ng-click="getCurrentMonthFirst()">当月</button>
+                <button type="button" class="btn btn-default" ng-click="changeWay()">{{currentWay}}</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px">
+            <table class="table table-bordered" ng-if="!showTable">
+                <thead>
+                    <tr>
+                        <td>类型名</td>
+                        <td>数量</td>
+                        <td>下载量</td>
+                        <td>打开次数</td>
+                        <td>广告打开次数</td>
+                        <td>捆绑包下载量</td>
+                        <td>转化比（捆绑下载量/导流包下载量）</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in categoryList">
+                        <td>{{item.category.name}}</td>
+                        <td>{{item.app_count}}</td>
+                        <td>{{item.install_count}}</td>
+                        <td>{{item.install_count + item.open_count}}</td>
+                        <td>{{item.ad_click_count}}</td>
+                        <td>{{item.apk_download}}</td>
+                        <td>{{item.apk_download / item.install_count}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered" ng-if="showTable">
+                <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>渠道名</td>
+                    <td>数量</td>
+                    <td>下载量</td>
+                    <td>打开次数</td>
+                    <td>广告展示数</td>
+                    <td>广告点击次数</td>
+                    <td>广告点击率</td>
+                    <td>广告目标下载量</td>
+                    <td>捆绑包下载量</td>
+                    <td>转换比（捆绑下载量/导流包下载量）</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in channelList">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.name}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

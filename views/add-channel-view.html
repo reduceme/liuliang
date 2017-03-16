@@ -1,0 +1,40 @@
+<style>
+    .list{border: 1px solid #DDDDDD;border-radius: 5px;padding: 20px}
+    td{text-align: center}
+    .secondRow{margin-top: 10px}
+</style>
+<div class="row" style="margin-left: 10px">
+    <h4>{{selectedSidetitle}}</h4>
+    <hr>
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-8 col-md-offset-2 list">
+            <table class="table table-bordered">
+                <h3><strong>渠道库</strong></h3>
+                <thead>
+                    <tr>
+                        <td class="col-sm-1">序号</td>
+                        <td class="col-md-2">渠道名</td>
+                        <td class="col-md-3">渠道ID</td>
+                        <td class="col-md-2">时间</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in channelList">
+                        <td class="col-sm-1">{{$index+1}}</td>
+                        <td class="col-md-2">{{item.name}}</td>
+                        <td class="col-md-3">{{item.uuid}}</td>
+                        <td class="col-md-2">{{item.create_at}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="input-group">
+                <span class="input-group-addon">渠道名：</span>
+                <input type="text" class="form-control" placeholder="渠道名" ng-model="channleName">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" ng-click="addChannel()">添加渠道</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
